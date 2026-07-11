@@ -14,9 +14,12 @@ import com.unibank.bankingSystem.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -186,5 +189,23 @@ public class TransactionService {
                 transaction.getDescription(),
                 transaction.getCreatedAt()
         ));
+    }
+
+    public List<TransactionResponse> getRecentTransactions() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByEmail(email).orElseThrow(
+                () -> new ResourceNotFoundException("User not found")
+        );
+        Pageable pageable = PageRequest.of(0,10);
+        Page<Transaction> transactions = transactionRepository.findByAccountOwnerOrderByCreatedAtDesc(user, pageable);
+
+        return transactions.map(transaction -> new TransactionResponse(
+                transaction.getId(),
+                transaction.getType(),
+                transaction.getAmount(),
+                transaction.getBalanceAfter(),
+                transaction.getDescription(),
+                transaction.getCreatedAt()
+        )).getContent();
     }
 }
