@@ -14,6 +14,7 @@ export default function TransactionsPage() {
     const [ depositAccountId, setDepositAccountId ] = useState('')
     const [ depositAmount, setDepositAmount ] = useState('')
     const [ depositDescription, setDepositDescription ] = useState('')
+    const [depositError, setDepositError] = useState('')
     const [ withdrawAccountId, setWithdrawAccountId ] = useState('')
     const [ withdrawAmount, setWithdrawAmount ] = useState('')
     const [ withdrawDescription, setWithdrawDescription ] = useState('')
@@ -37,7 +38,12 @@ export default function TransactionsPage() {
     }
 
     async function handleDeposit() {
+        if (Number(depositAmount) <= 0) {
+            setDepositError('Amount must be greater than zero')
+            return
+        }
         setSubmitting(true)
+        setDepositError('')
         try {
             const body = {
                 accountId: Number(depositAccountId),
@@ -57,6 +63,10 @@ export default function TransactionsPage() {
     }
 
     async function handleWithdraw() {
+        if (Number(withdrawAmount) <= 0) {
+            setWithdrawError('Amount must be greater than zero')
+            return
+        }
         setSubmitting(true)
         setWithdrawError('')
         try {
@@ -78,6 +88,10 @@ export default function TransactionsPage() {
     }
 
     async function handleTransfer() {
+        if (Number(transferAmount) <= 0) {
+            setTransferError('Amount must be greater than zero')
+            return
+        }
         setSubmitting(true)
         setTransferError('')
         try {
@@ -155,6 +169,8 @@ export default function TransactionsPage() {
                                 onChange={(e) => setDepositDescription(e.target.value)}
                             />
                         </div>
+
+                        {depositError && <p className="text-sm text-red-500">{depositError}</p>}
 
                         <Button onClick={handleDeposit} disabled={submitting}>
                             {submitting ? 'Depositing...' : 'Make deposit'}

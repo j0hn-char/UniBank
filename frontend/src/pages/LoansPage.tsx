@@ -54,6 +54,10 @@ export default function LoansPage() {
     }
 
     async function handleApply() {
+        if (Number(applyAmount) <= 0) {
+            setApplyError('Amount must be greater than zero')
+            return
+        }
         setSubmitting(true)
         setApplyError('')
         try {
@@ -78,6 +82,10 @@ export default function LoansPage() {
     }
 
     async function handleRepay(loanId: number) {
+        if (Number(repayAmount) <= 0) {
+            setRepayError('Amount must be greater than zero')
+            return
+        }
         setSubmitting(true)
         setRepayError('')
         try {
