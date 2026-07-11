@@ -27,6 +27,9 @@ export default function LoansPage() {
     const [ applyAccountId, setApplyAccountId ] = useState('')
     const [ submitting, setSubmitting ] = useState(false)
     const [ applyError, setApplyError ] = useState('')
+    const [ repayAmount, setRepayAmount ] = useState('')
+    const [ repayError, setRepayError ] = useState('')
+    const [repayingLoanId, setRepayingLoanId] = useState<number | null>(null)
 
     async function fetchLoans() {
         try {
@@ -69,6 +72,21 @@ export default function LoansPage() {
             await fetchLoans()
         } catch (err: any) {
             setApplyError(err.response?.data?.message ?? 'Loan application failed')
+        } finally {
+            setSubmitting(false)
+        }
+    }
+
+    async function handleRepay(loanId: number) {
+        setSubmitting(true)
+        setRepayError('')
+        try {
+            await api.post(`/loans/${loanId}/repay`, { amount: Number(repayAmount) })
+            setRepayAmount('')
+            setRepayingLoanId(null)   // ← add this
+            await fetchLoans()
+        } catch (err: any) {
+            setRepayError(err.response?.data?.message ?? 'Repayment failed')
         } finally {
             setSubmitting(false)
         }
@@ -172,6 +190,37 @@ export default function LoansPage() {
                                 <p>Monthly payment: {loan.monthlyPayment.toFixed(2)}€</p>
                                 <p>Term: {loan.termMonths} months</p>
                                 <p>Interest rate: {loan.interestRate}%</p>
+
+                                {loan.status === 'ACTIVE' && (
+                                    <div className="mt-4">
+                                        <Dialog open={repayingLoanId === loan.id} onOpenChange={(open) => setRepayingLoanId(open ? loan.id : null)}>
+                                            <DialogTrigger asChild>
+                                                <Button>Repay</Button>
+                                            </DialogTrigger>
+                                            <DialogContent>
+                                                <DialogHeader>
+                                                    <DialogTitle>Repay loan</DialogTitle>
+                                                </DialogHeader>
+                                                <div className="space-y-2 py-2">
+                                                    <Label htmlFor="repay-amount">Amount</Label>
+                                                    <Input
+                                                        type="number"
+                                                        id="repay-amount"
+                                                        placeholder="0.0€"
+                                                        value={repayAmount}
+                                                        onChange={(e) => setRepayAmount(e.target.value)}
+                                                    />
+                                                    {repayError && <p className="text-sm text-red-500">{repayError}</p> }
+                                                </div>
+                                                <DialogFooter>
+                                                    <Button onClick={() => handleRepay(loan.id)} disabled={submitting}>
+                                                        {submitting ? 'Repaying...' : 'Repay'}
+                                                    </Button>
+                                                </DialogFooter>
+                                            </DialogContent>
+                                        </Dialog>
+                                    </div>
+                                )}
                             </CardContent>
                         </Card>
                     ))}

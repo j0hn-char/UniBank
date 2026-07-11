@@ -7,6 +7,8 @@ import AccountDetailsPage from "@/pages/AccountDetailsPage.tsx";
 import Layout from "@/components/Layout.tsx";
 import TransactionsPage from "@/pages/TransactionsPage.tsx";
 import LoansPage from "@/pages/LoansPage.tsx";
+import AdminRoute from "@/components/AdminRoute.tsx";
+import AdminLoansPage from "@/pages/AdminLoansPage.tsx";
 
 function App() {
   return (
@@ -51,6 +53,14 @@ function App() {
                       <ProtectedRoute>
                           <LoansPage />
                       </ProtectedRoute>
+                  }
+              />
+              <Route
+                  path="/admin/loans"
+                  element={
+                      <AdminRoute>
+                          <AdminLoansPage />
+                      </AdminRoute>
                   }
               />
           </Route>

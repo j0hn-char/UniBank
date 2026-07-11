@@ -222,4 +222,31 @@ public class LoanService {
                 )
         ).toList();
     }
+
+    public List<LoanResponse> getPendingLoans() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByEmail(email).orElseThrow(
+                () -> new ResourceNotFoundException("User not found")
+        );
+
+        if(user.getRole() != Role.ADMIN) {
+            throw new UnauthorizedException("You need to be an admin for this action");
+        }
+
+        List<Loan> loans = loanRepository.findByStatus(LoanStatus.PENDING);
+
+        return loans.stream().map(loan ->
+                new LoanResponse(
+                        loan.getId(),
+                        loan.getPrincipalAmount(),
+                        loan.getRemainingAmount(),
+                        loan.getInterestRate(),
+                        loan.getTermMonths(),
+                        loan.getMonthlyPayment(),
+                        loan.getStatus(),
+                        loan.getPurpose(),
+                        loan.getAppliedAt()
+                )
+        ).toList();
+    }
 }

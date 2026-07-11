@@ -36,6 +36,11 @@ public class LoanController {
         return loanService.repayLoan(id, request);
     }
 
+    @GetMapping("/pending")
+    public List<LoanResponse> getPendingLoans() {
+        return loanService.getPendingLoans();
+    }
+
     @GetMapping
     public List<LoanResponse> getUserLoans() {
         return loanService.getUserLoans();
