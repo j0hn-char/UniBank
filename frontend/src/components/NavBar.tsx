@@ -1,6 +1,7 @@
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '@/context/AuthContext'
 import { Button } from '@/components/ui/button'
+import {ThemeToggle} from "@/components/ThemeToggle.tsx";
 
 export default function NavBar() {
     const { user, logout } = useAuth()
@@ -29,6 +30,8 @@ export default function NavBar() {
                         <NavLink to="/admin/loans" className={linkClass}>Admin</NavLink>
                     )}
                 </div>
+
+                <ThemeToggle />
 
                 <div className="flex items-center gap-4">
                     <span className="text-sm text-muted-foreground">{user?.email}</span>

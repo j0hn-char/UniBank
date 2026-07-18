@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>UniBank — Design reference</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: 'Inter', sans-serif; background: #F4F4F5; color: #18181B; }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 40px 24px 100px; }
+  header.top { margin-bottom: 32px; }
+  header.top h1 { font-size: 26px; font-weight: 600; margin: 0 0 6px; }
+  header.top p { font-size: 14px; color: #71717A; margin: 0; }
+  nav.toc { background: #FFFFFF; border: 1px solid #E4E4E7; border-radius: 12px; padding: 16px 20px; margin-bottom: 40px; }
+  nav.toc div { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #71717A; margin-bottom: 10px; }
+  nav.toc a { display: inline-block; font-size: 13px; color: #4338CA; text-decoration: none; margin: 0 14px 8px 0; }
+  nav.toc a:hover { text-decoration: underline; }
+  section { margin-bottom: 56px; }
+  section h2 { font-size: 18px; font-weight: 600; margin: 0 0 4px; border-top: 1px solid #E4E4E7; padding-top: 32px; }
+  section p.note { font-size: 13px; color: #71717A; margin: 0 0 18px; max-width: 640px; line-height: 1.5; }
+  h3.sub { font-size: 13px; font-weight: 600; color: #71717A; text-transform: uppercase; letter-spacing: 0.05em; margin: 20px 0 10px; }
+  .frame { background: #FFFFFF; border: 1px solid #E4E4E7; border-radius: 14px; padding: 20px; }
+  .dark-frame { background: #121212; border-radius: 14px; padding: 20px; }
+  .row { display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-start; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <h1>UniBank — design reference</h1>
+  <p>Styling pass mockups, generated during the design consult. Foundations through final pages, light and dark, desktop and mobile.</p>
+</header>
+
+<nav class="toc">
+  <div>Contents</div>
+  <a href="#foundations">Foundations</a>
+  <a href="#components">Components</a>
+  <a href="#nav">Navigation</a>
+  <a href="#desktop">Desktop pages</a>
+  <a href="#mobile">Mobile pages</a>
+  <a href="#dark">Dark mode</a>
+  <a href="#misc">States and brand</a>
+</nav>
+
+<section id="foundations">
+<h2>Foundations</h2>
+<p class="note">Locked token values: deep indigo accent, near-white/charcoal neutrals (never pure white/black), emerald/rose/amber/slate semantics. Each pair is light stop &rarr; dark stop.</p>
+<div class="row">
+
+<div class="frame" style="width:260px;">
+<h3 class="sub">Light</h3>
+<div style="font-size:24px; font-weight:600; margin-bottom:14px;">Aa 0123456789</div>
+<div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px;">
+<div style="text-align:center;"><div style="width:32px;height:32px;border-radius:8px;background:#4338CA;"></div><div style="font-size:11px;color:#71717A;margin-top:4px;">indigo</div></div>
+<div style="text-align:center;"><div style="width:32px;height:32px;border-radius:8px;background:#059669;"></div><div style="font-size:11px;color:#71717A;margin-top:4px;">emerald</div></div>
+<div style="text-align:center;"><div style="width:32px;height:32px;border-radius:8px;background:#E11D48;"></div><div style="font-size:11px;color:#71717A;margin-top:4px;">rose</div></div>
+<div style="text-align:center;"><div style="width:32px;height:32px;border-radius:8px;background:#D97706;"></div><div style="font-size:11px;color:#71717A;margin-top:4px;">amber</div></div>
+<div style="text-align:center;"><div style="width:32px;height:32px;border-radius:8px;background:#64748B;"></div><div style="font-size:11px;color:#71717A;margin-top:4px;">slate</div></div>
+</div>
+<div style="font-size:12px; color:#71717A; line-height:1.8;">
+page #F4F4F5 &middot; card #FFFFFF<br>border #E4E4E7 &middot; text #18181B / #71717A
+</div>
+</div>
+
+<div class="dark-frame" style="width:260px;">
+<h3 class="sub" style="color:#A1A1AA;">Dark</h3>
+<div style="font-size:24px; font-weight:600; color:#F4F4F5; margin-bottom:14px;">Aa 0123456789</div>
+<div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px;">
+<div style="text-align:center;"><div style="width:32px;height:32px;border-radius:8px;background:#6366F1;"></div><div style="font-size:11px;color:#A1A1AA;margin-top:4px;">indigo</div></div>
+<div style="text-align:center;"><div style="width:32px;height:32px;border-radius:8px;background:#34D399;"></div><div style="font-size:11px;color:#A1A1AA;margin-top:4px;">emerald</div></div>
+<div style="text-align:center;"><div style="width:32px;height:32px;border-radius:8px;background:#FB7185;"></div><div style="font-size:11px;color:#A1A1AA;margin-top:4px;">rose</div></div>
+<div style="text-align:center;"><div style="width:32px;height:32px;border-radius:8px;background:#FBBF24;"></div><div style="font-size:11px;color:#A1A1AA;margin-top:4px;">amber</div></div>
+<div style="text-align:center;"><div style="width:32px;height:32px;border-radius:8px;background:#94A3B8;"></div><div style="font-size:11px;color:#A1A1AA;margin-top:4px;">slate</div></div>
+</div>
+<div style="font-size:12px; color:#A1A1AA; line-height:1.8;">
+page #121212 &middot; card #202024<br>border #35353D &middot; text #F4F4F5 / #A1A1AA<br>button fill #4F46E5 (not raw #6366F1)
+</div>
+</div>
+
+</div>
+</section>
+
+<section id="components">
+<h2>Components</h2>
+<p class="note">Money amount (sign + color + tabular-nums), status badges, buttons and interactive states, payment cards including frozen (frost overlay) and closed, skeletons, toasts, brand mark.</p>
+
+<h3 class="sub">Money + badges</h3>
+<div class="frame row">
+  <div style="font-variant-numeric:tabular-nums; font-size:15px; font-weight:600;">
+    <span style="color:#059669;">+1.200,00&nbsp;&euro;</span>&nbsp;&nbsp;
+    <span style="color:#E11D48;">&minus;45,00&nbsp;&euro;</span>
+  </div>
+  <span style="background:#D1FAE5; color:#065F46; font-size:11px; font-weight:500; padding:3px 10px; border-radius:999px;">Active</span>
+  <span style="background:#FEF3C7; color:#92400E; font-size:11px; font-weight:500; padding:3px 10px; border-radius:999px;">Pending</span>
+  <span style="background:#FFE4E6; color:#9F1239; font-size:11px; font-weight:500; padding:3px 10px; border-radius:999px;">Rejected/Closed</span>
+  <span style="background:#F1F5F9; color:#334155; font-size:11px; font-weight:500; padding:3px 10px; border-radius:999px; display:flex; align-items:center; gap:4px;"><i class="ti ti-lock" style="font-size:12px;"></i>Frozen</span>
+</div>
+
+<h3 class="sub">Buttons and states</h3>
+<div class="frame row" style="align-items:center;">
+  <button style="background:#4338CA; color:#FFFFFF; border:none; border-radius:8px; padding:9px 16px; font-size:13px; font-weight:500; font-family:inherit;">Default</button>
+  <button style="background:#3730A3; color:#FFFFFF; border:none; border-radius:8px; padding:9px 16px; font-size:13px; font-weight:500; font-family:inherit;">Hover</button>
+  <button style="background:#4338CA; color:#FFFFFF; opacity:0.45; border:none; border-radius:8px; padding:9px 16px; font-size:13px; font-weight:500; font-family:inherit;">Submitting...</button>
+  <button style="background:#E11D48; color:#FFFFFF; border:none; border-radius:8px; padding:9px 16px; font-size:13px; font-weight:500; font-family:inherit;">Destructive confirm</button>
+  <div style="border:1px solid #4338CA; box-shadow:0 0 0 3px #E0E7FF; border-radius:8px; padding:9px 10px; font-size:13px; width:120px;">Focused</div>
+</div>
+
+<h3 class="sub">Payment cards — active, frozen, closed</h3>
+<div class="frame row">
+  <div style="background:#4338CA; border-radius:20px; height:130px; width:210px; box-sizing:border-box; position:relative; overflow:hidden;">
+    <div style="position:absolute; width:190px; height:190px; border-radius:50%; background:#3B31B5; top:-115px; right:-60px;"></div>
+    <div style="position:absolute; width:130px; height:130px; border-radius:50%; background:#372DA8; bottom:-80px; left:-40px;"></div>
+    <div style="position:relative; padding:16px; height:100%; box-sizing:border-box; display:flex; flex-direction:column; justify-content:space-between;">
+      <div style="display:flex; justify-content:space-between;"><div><div style="color:#FFFFFF; font-size:13px; font-weight:600;">Everyday</div><div style="color:#C7D2FE; font-size:10px;">Checking</div></div><i class="ti ti-wallet" style="color:#C7D2FE; font-size:17px;"></i></div>
+      <div style="display:flex; justify-content:space-between; align-items:flex-end;"><div style="display:flex; gap:5px; color:#C7D2FE; font-size:11px;">&bull;&bull;&bull;&bull; 4821<i class="ti ti-copy" style="font-size:12px;"></i></div><div style="color:#FFFFFF; font-size:16px; font-weight:600; font-variant-numeric:tabular-nums;">4.238,12&nbsp;&euro;</div></div>
+    </div>
+  </div>
+
+  <div style="position:relative; background:#4338CA; border-radius:20px; width:210px; height:130px; box-sizing:border-box; overflow:hidden;">
+    <div style="position:absolute; inset:0; background:rgba(255,255,255,0.16); border:1px solid rgba(255,255,255,0.3); border-radius:20px; box-sizing:border-box;"></div>
+    <i class="ti ti-snowflake" style="position:absolute; bottom:10px; right:10px; color:rgba(255,255,255,0.35); font-size:34px;"></i>
+    <div style="position:relative; padding:16px; height:100%; box-sizing:border-box; display:flex; flex-direction:column; justify-content:space-between;">
+      <div style="display:flex; justify-content:space-between;"><div><div style="color:#FFFFFF; font-size:13px; font-weight:600;">Everyday</div><div style="color:#E0E7FF; font-size:10px;">Checking</div></div><span style="background:#F1F5F9; color:#334155; font-size:10px; font-weight:500; padding:2px 8px; border-radius:999px; display:flex; align-items:center; gap:3px;"><i class="ti ti-lock" style="font-size:10px;"></i>Frozen</span></div>
+      <div style="display:flex; justify-content:space-between; align-items:flex-end;"><div style="color:#E0E7FF; font-size:11px;">&bull;&bull;&bull;&bull; 4821</div><div style="color:#FFFFFF; font-size:16px; font-weight:600; font-variant-numeric:tabular-nums;">4.238,12&nbsp;&euro;</div></div>
+    </div>
+  </div>
+
+  <div style="background:#F4F4F5; border-radius:20px; padding:16px; width:210px; height:130px; box-sizing:border-box; display:flex; flex-direction:column; justify-content:space-between;">
+    <div style="display:flex; justify-content:space-between;"><div><div style="color:#71717A; font-size:13px; font-weight:600;">Old checking</div><div style="color:#A1A1AA; font-size:10px;">Checking</div></div><span style="background:#E4E4E7; color:#52525B; font-size:10px; font-weight:500; padding:2px 8px; border-radius:999px;">Closed</span></div>
+    <div style="display:flex; justify-content:space-between; align-items:flex-end;"><div style="color:#A1A1AA; font-size:11px;">&bull;&bull;&bull;&bull; 7734</div><div style="color:#A1A1AA; font-size:16px; font-weight:600; font-variant-numeric:tabular-nums;">0,00&nbsp;&euro;</div></div>
+  </div>
+</div>
+
+<h3 class="sub">Skeleton, toast, brand mark</h3>
+<div class="frame row" style="align-items:center;">
+  <div style="border:1px solid #E4E4E7; border-radius:12px; padding:14px; width:150px;">
+    <div style="width:80px; height:10px; background:#E4E4E7; border-radius:4px; margin-bottom:8px;"></div>
+    <div style="width:50px; height:8px; background:#E4E4E7; border-radius:4px;"></div>
+  </div>
+  <div style="background:#FFFFFF; border:1px solid #E4E4E7; border-radius:10px; padding:10px 14px; display:flex; align-items:center; gap:10px; box-shadow:0 4px 12px rgba(0,0,0,0.06);">
+    <i class="ti ti-circle-check" style="color:#059669; font-size:18px;"></i><div style="font-size:13px;">Deposit added</div>
+  </div>
+  <div style="display:flex; align-items:center; gap:8px;"><div style="width:26px; height:26px; border-radius:7px; background:#4338CA;"></div><div style="font-size:15px; font-weight:600;">UniBank</div></div>
+</div>
+
+</section>
+
+<section id="nav">
+<h2>Navigation</h2>
+<p class="note">Left sidebar, expanded and collapsed, plus the mobile drawer and the final minimal mobile top bar (hamburger + brand mark, no duplicate title).</p>
+<div class="row">
+<div class="frame" style="padding:0; overflow:hidden;">
+<div style="display:flex; width:300px; height:280px;">
+<div style="width:180px; background:#FFFFFF; border-right:1px solid #E4E4E7; padding:14px; box-sizing:border-box; display:flex; flex-direction:column; justify-content:space-between;">
+<div>
+<div style="display:flex; align-items:center; gap:8px; padding:4px 8px 16px;"><div style="width:20px;height:20px;border-radius:6px;background:#4338CA;"></div><div style="font-size:13px; font-weight:600;">UniBank</div></div>
+<div style="display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:8px; background:#EEF2FF;"><i class="ti ti-layout-dashboard" style="color:#4338CA; font-size:16px;"></i><span style="font-size:12px; font-weight:500; color:#4338CA;">Dashboard</span></div>
+<div style="display:flex; align-items:center; gap:10px; padding:8px 10px;"><i class="ti ti-wallet" style="color:#A1A1AA; font-size:16px;"></i><span style="font-size:12px; color:#52525B;">Accounts</span></div>
+<div style="display:flex; align-items:center; gap:10px; padding:8px 10px;"><i class="ti ti-arrows-exchange" style="color:#A1A1AA; font-size:16px;"></i><span style="font-size:12px; color:#52525B;">Transactions</span></div>
+<div style="display:flex; align-items:center; gap:10px; padding:8px 10px;"><i class="ti ti-report-money" style="color:#A1A1AA; font-size:16px;"></i><span style="font-size:12px; color:#52525B;">Loans</span></div>
+</div>
+<div style="display:flex; align-items:center; gap:8px; border-top:1px solid #F1F5F9; padding-top:10px;"><div style="width:24px;height:24px;border-radius:50%;background:#E0E7FF; display:flex; align-items:center; justify-content:center; font-size:10px; color:#4338CA; font-weight:600;">JC</div><div style="font-size:10px; color:#71717A;">ics24015@uom.edu.gr</div></div>
+</div>
+<div style="flex:1; background:#FAFAFA;"></div>
+</div>
+</div>
+
+<div class="frame" style="padding:0; overflow:hidden;">
+<div style="width:210px;">
+<div style="height:34px; background:#FFFFFF; border-bottom:1px solid #E4E4E7; display:flex; align-items:center; justify-content:space-between; padding:0 12px;"><i class="ti ti-menu-2" style="color:#52525B; font-size:17px;"></i><div style="width:16px;height:16px;border-radius:4px;background:#4338CA;"></div></div>
+<div style="padding:14px; background:#F4F4F5; height:200px;">
+<div style="display:flex; justify-content:space-between; align-items:center;"><div style="font-size:14px; font-weight:600;">Page title</div><button style="background:#4338CA; color:#FFFFFF; border:none; border-radius:7px; padding:5px 9px; font-size:10px; font-family:inherit;">Action</button></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="desktop">
+<h2>Desktop pages — final, light</h2>
+<p class="note">All seven pages with the improvement pass applied: hero quick actions and honest fade chart, arc-treatment payment cards with copy affordance, action-row on account details, transfer quick-pick chips, live loan payment preview, admin borrower/age columns, split-panel auth.</p>
+
+<h3 class="sub">Dashboard</h3>
+<div class="frame">
+<div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+<div><div style="font-size:12px; color:#71717A;">Total balance</div><div style="font-size:26px; font-weight:600; font-variant-numeric:tabular-nums;">16.288,12&nbsp;&euro;</div></div>
+<div style="display:flex; gap:8px;"><button style="background:#4338CA; color:#FFFFFF; border:none; border-radius:8px; padding:8px 14px; font-size:12px; font-weight:500; font-family:inherit;">+ Deposit</button><button style="background:#FFFFFF; border:1px solid #E4E4E7; border-radius:8px; padding:8px 14px; font-size:12px; font-weight:500; font-family:inherit;">Transfer</button></div>
+</div>
+<svg viewBox="0 0 600 90" width="100%" height="80"><defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#4338CA" stop-opacity="0.28"/><stop offset="100%" stop-color="#4338CA" stop-opacity="0"/></linearGradient></defs>
+<path d="M0,60 L80,50 L160,56 L240,38 L320,45 L400,26 L480,34 L560,14 L600,18 L600,90 L0,90 Z" fill="url(#g1)"/>
+<path d="M0,60 L80,50 L160,56 L240,38 L320,45 L400,26 L480,34 L560,14 L600,18" stroke="#4338CA" stroke-width="2.5" fill="none"/></svg>
+<div style="display:flex; gap:16px; margin-top:14px;">
+<div style="flex:1; background:#F4F4F5; border-radius:10px; padding:12px 14px;"><div style="font-size:11px; color:#71717A;">Active loans</div><div style="font-size:18px; font-weight:600;">2</div></div>
+<div style="flex:1; background:#F4F4F5; border-radius:10px; padding:12px 14px;"><div style="font-size:11px; color:#71717A;">Total owed</div><div style="font-size:18px; font-weight:600;">4.200,00&nbsp;&euro;</div></div>
+</div>
+</div>
+
+<h3 class="sub">Accounts</h3>
+<div class="frame">
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;"><div style="font-size:16px; font-weight:600;">Accounts</div><button style="background:#4338CA; color:#FFFFFF; border:none; border-radius:8px; padding:7px 12px; font-size:11px; font-weight:500; font-family:inherit;">Open account</button></div>
+<div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px;">
+<div style="background:#4338CA; border-radius:18px; height:110px; position:relative; overflow:hidden;"><div style="position:absolute; width:160px; height:160px; border-radius:50%; background:#3B31B5; top:-95px; right:-50px;"></div><div style="position:relative; padding:14px; height:100%; box-sizing:border-box; display:flex; flex-direction:column; justify-content:space-between;"><div style="color:#FFFFFF; font-size:12px; font-weight:600;">Everyday</div><div style="display:flex; justify-content:space-between; align-items:flex-end;"><div style="display:flex; gap:4px; color:#C7D2FE; font-size:10px;">&bull;&bull;&bull;&bull;4821<i class="ti ti-copy" style="font-size:10px;"></i></div><div style="color:#FFFFFF; font-size:13px; font-weight:600;">4.238&nbsp;&euro;</div></div></div></div>
+<div style="background:#27272A; border-radius:18px; height:110px; position:relative; overflow:hidden;"><div style="position:absolute; width:160px; height:160px; border-radius:50%; background:#323232; top:-95px; right:-50px;"></div><div style="position:relative; padding:14px; height:100%; box-sizing:border-box; display:flex; flex-direction:column; justify-content:space-between;"><div style="color:#FFFFFF; font-size:12px; font-weight:600;">Rainy day</div><div style="display:flex; justify-content:space-between; align-items:flex-end;"><div style="display:flex; gap:4px; color:#A1A1AA; font-size:10px;">&bull;&bull;&bull;&bull;0193<i class="ti ti-copy" style="font-size:10px;"></i></div><div style="color:#FFFFFF; font-size:13px; font-weight:600;">12.050&nbsp;&euro;</div></div></div></div>
+<div style="border:2px dashed #D4D4D8; border-radius:18px; height:110px; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:5px;"><i class="ti ti-plus" style="color:#A1A1AA; font-size:18px;"></i><div style="font-size:11px; color:#71717A;">New account</div></div>
+</div>
+</div>
+
+<h3 class="sub">Account details</h3>
+<div class="frame">
+<div style="background:#4338CA; border-radius:18px; height:120px; position:relative; overflow:hidden; margin-bottom:12px;"><div style="position:absolute; width:200px; height:200px; border-radius:50%; background:#3B31B5; top:-120px; right:-60px;"></div><div style="position:relative; padding:18px; height:100%; box-sizing:border-box; display:flex; flex-direction:column; justify-content:space-between;"><div><div style="color:#FFFFFF; font-size:14px; font-weight:600;">Everyday</div><div style="color:#C7D2FE; font-size:11px;">Checking &middot; Active</div></div><div style="display:flex; justify-content:space-between; align-items:flex-end;"><div style="display:flex; gap:5px; color:#C7D2FE; font-size:12px;">UNI-2024-4821<i class="ti ti-copy" style="font-size:12px;"></i></div><div style="color:#FFFFFF; font-size:20px; font-weight:600;">4.238,12&nbsp;&euro;</div></div></div></div>
+<div style="display:flex; gap:8px;"><button style="background:#4338CA; color:#FFFFFF; border:none; border-radius:8px; padding:7px 12px; font-size:11px; font-family:inherit;">Deposit</button><button style="background:#FFFFFF; border:1px solid #E4E4E7; border-radius:8px; padding:7px 12px; font-size:11px; font-family:inherit;">Withdraw</button><button style="background:#FFFFFF; border:1px solid #E4E4E7; border-radius:8px; padding:7px 12px; font-size:11px; font-family:inherit;">Transfer</button><button style="background:#FFFFFF; border:1px solid #FECDD3; color:#9F1239; border-radius:8px; padding:7px 12px; font-size:11px; font-family:inherit; margin-left:auto;">Close</button></div>
+</div>
+
+<h3 class="sub">Transactions (transfer tab)</h3>
+<div class="frame row">
+<div style="flex:1.4; border:1px solid #E4E4E7; border-radius:10px; padding:14px; box-sizing:border-box; max-width:300px;">
+<div style="border:1px solid #E4E4E7; background:#F4F4F5; border-radius:8px; padding:8px 10px; font-size:12px; margin-bottom:8px;">Everyday &mdash; 4.238,12&nbsp;&euro;</div>
+<div style="border:1px solid #E4E4E7; background:#F4F4F5; border-radius:8px; padding:8px 10px; font-size:12px; color:#A1A1AA; margin-bottom:6px;">UNI-...</div>
+<div style="display:flex; gap:6px; margin-bottom:10px;"><span style="border:1px solid #C7D2FE; background:#EEF2FF; color:#4338CA; font-size:10px; font-weight:500; padding:3px 9px; border-radius:999px;">Yours: Rainy day</span></div>
+<button style="background:#4338CA; color:#FFFFFF; border:none; border-radius:8px; padding:8px 16px; font-size:12px; font-family:inherit;">Make transfer</button>
+</div>
+<div style="flex:1; border:1px solid #E4E4E7; border-radius:10px; padding:12px; max-width:200px;">
+<div style="font-size:11px; color:#71717A; margin-bottom:8px;">Your accounts</div>
+<div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:5px;"><span>Everyday</span><span style="font-weight:600;">4.238&nbsp;&euro;</span></div>
+<div style="display:flex; justify-content:space-between; font-size:11px;"><span>Rainy day</span><span style="font-weight:600;">12.050&nbsp;&euro;</span></div>
+</div>
+</div>
+
+<h3 class="sub">Loans</h3>
+<div class="frame row">
+<div style="border:1px solid #E4E4E7; border-radius:10px; padding:14px; width:200px; box-sizing:border-box;">
+<div style="display:flex; justify-content:space-between; margin-bottom:6px;"><div style="font-size:13px; font-weight:600;">Car loan</div><span style="background:#D1FAE5; color:#065F46; font-size:10px; padding:2px 8px; border-radius:999px;">Active</span></div>
+<div style="height:5px; border-radius:999px; background:#F1F5F9; margin-bottom:6px;"><div style="height:100%; width:65%; background:#059669; border-radius:999px;"></div></div>
+<div style="display:flex; justify-content:space-between; font-size:11px;"><span>4.200,00&nbsp;&euro; left</span><span>230,50&nbsp;&euro;/mo</span></div>
+</div>
+<div style="border:1px solid #E4E4E7; border-radius:10px; padding:14px; width:220px; box-sizing:border-box;">
+<div style="font-size:13px; font-weight:600; margin-bottom:10px;">Apply for a loan</div>
+<div style="background:#EEF2FF; border-radius:8px; padding:8px 10px;"><div style="font-size:10px; color:#4338CA;">Monthly at 5% APR</div><div style="font-size:14px; font-weight:600; color:#4338CA;">256,81&nbsp;&euro;/mo</div></div>
+</div>
+</div>
+
+<h3 class="sub">Admin loans</h3>
+<div class="frame">
+<div style="display:grid; grid-template-columns:1.4fr 0.9fr 0.7fr 0.8fr 1.3fr; padding:8px 0; border-bottom:1px solid #E4E4E7; font-size:10px; color:#71717A; font-weight:500;"><div>Borrower</div><div style="text-align:right;">Amount</div><div style="text-align:right;">Term</div><div style="text-align:right;">Applied</div><div style="text-align:right;">Actions</div></div>
+<div style="display:grid; grid-template-columns:1.4fr 0.9fr 0.7fr 0.8fr 1.3fr; padding:10px 0; align-items:center;">
+<div><div style="font-size:12px; font-weight:500;">Alex Papadopoulos</div><div style="font-size:10px; color:#71717A;">Tuition</div></div>
+<div style="font-size:12px; text-align:right;">3.000,00&nbsp;&euro;</div><div style="font-size:12px; text-align:right; color:#71717A;">12 mo</div><div style="font-size:12px; text-align:right; color:#B45309;">5d ago</div>
+<div style="display:flex; gap:5px; justify-content:flex-end;"><button style="border:1px solid #A7F3D0; background:#FFFFFF; color:#065F46; font-size:10px; padding:4px 9px; border-radius:6px; font-family:inherit;">Approve</button><button style="border:1px solid #FECDD3; background:#FFFFFF; color:#9F1239; font-size:10px; padding:4px 9px; border-radius:6px; font-family:inherit;">Reject</button></div>
+</div>
+</div>
+
+<h3 class="sub">Auth</h3>
+<div class="frame" style="padding:0; overflow:hidden;">
+<div style="display:flex;">
+<div style="width:220px; background:#FFFFFF; padding:20px; box-sizing:border-box;"><div style="font-size:15px; font-weight:600; margin-bottom:12px;">Welcome back</div><div style="border:1px solid #E4E4E7; background:#F4F4F5; border-radius:7px; padding:7px 9px; font-size:11px; margin-bottom:8px;">Email</div><div style="border:1px solid #E4E4E7; background:#F4F4F5; border-radius:7px; padding:7px 9px; font-size:11px; margin-bottom:10px; display:flex; justify-content:space-between;"><span>&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;</span><i class="ti ti-eye" style="font-size:13px; color:#A1A1AA;"></i></div><button style="width:100%; background:#4338CA; color:#FFFFFF; border:none; border-radius:7px; padding:8px; font-size:12px; font-family:inherit;">Sign in</button></div>
+<div style="flex:1; background:#4338CA; position:relative; padding:20px; box-sizing:border-box; overflow:hidden;"><div style="position:absolute; width:180px; height:180px; border-radius:50%; background:#3B31B5; top:-90px; right:-70px;"></div></div>
+</div>
+</div>
+
+</section>
+
+<section id="mobile">
+<h2>Mobile pages — final, light</h2>
+<p class="note">Same seven pages at mobile width — minimal hamburger-plus-mark top bar, title and primary action back in page content, tables convert to stacked cards.</p>
+<div class="row">
+<div class="frame" style="padding:0; overflow:hidden;">
+<div style="width:200px;">
+<div style="height:32px; background:#FFFFFF; border-bottom:1px solid #E4E4E7; display:flex; align-items:center; justify-content:space-between; padding:0 12px;"><i class="ti ti-menu-2" style="font-size:16px; color:#52525B;"></i><div style="width:14px;height:14px;border-radius:4px;background:#4338CA;"></div></div>
+<div style="padding:12px; background:#F4F4F5;">
+<div style="background:#FFFFFF; border:1px solid #E4E4E7; border-radius:10px; padding:10px; margin-bottom:8px;"><div style="font-size:15px; font-weight:600;">16.288&nbsp;&euro;</div></div>
+<div style="display:flex; gap:5px;"><div style="flex:1; background:#FFFFFF; border:1px solid #E4E4E7; border-radius:6px; padding:6px;"><div style="font-size:7px; color:#71717A;">Loans</div><div style="font-size:11px; font-weight:600;">2</div></div><div style="flex:1; background:#FFFFFF; border:1px solid #E4E4E7; border-radius:6px; padding:6px;"><div style="font-size:7px; color:#71717A;">Owed</div><div style="font-size:11px; font-weight:600;">4.200&nbsp;&euro;</div></div></div>
+</div>
+</div>
+</div>
+
+<div class="frame" style="padding:0; overflow:hidden;">
+<div style="width:200px;">
+<div style="height:32px; background:#FFFFFF; border-bottom:1px solid #E4E4E7; display:flex; align-items:center; justify-content:space-between; padding:0 12px;"><i class="ti ti-menu-2" style="font-size:16px; color:#52525B;"></i><div style="width:14px;height:14px;border-radius:4px;background:#4338CA;"></div></div>
+<div style="padding:12px; background:#F4F4F5;">
+<div style="display:flex; justify-content:space-between; margin-bottom:8px;"><div style="font-size:13px; font-weight:600;">Accounts</div><button style="background:#4338CA; color:#FFFFFF; border:none; border-radius:6px; padding:4px 8px; font-size:9px; font-family:inherit;">+ Open</button></div>
+<div style="background:#4338CA; border-radius:12px; height:70px; position:relative; overflow:hidden;"><div style="position:relative; padding:10px; color:#FFFFFF; font-size:11px; font-weight:600;">Everyday</div></div>
+</div>
+</div>
+</div>
+
+<div class="frame" style="padding:0; overflow:hidden;">
+<div style="width:200px;">
+<div style="height:32px; background:#FFFFFF; border-bottom:1px solid #E4E4E7; display:flex; align-items:center; justify-content:space-between; padding:0 12px;"><i class="ti ti-menu-2" style="font-size:16px; color:#52525B;"></i><div style="width:14px;height:14px;border-radius:4px;background:#4338CA;"></div></div>
+<div style="padding:12px; background:#F4F4F5;">
+<div style="background:#4338CA; border-radius:12px; height:70px; margin-bottom:8px; padding:10px; box-sizing:border-box; color:#FFFFFF; font-size:11px; font-weight:600;">Everyday</div>
+<div style="display:flex; gap:4px;"><button style="flex:1; background:#4338CA; color:#FFFFFF; border:none; border-radius:5px; padding:5px; font-size:8px; font-family:inherit;">Deposit</button><button style="flex:1; background:#FFFFFF; border:1px solid #E4E4E7; border-radius:5px; padding:5px; font-size:8px; font-family:inherit;">Withdraw</button></div>
+</div>
+</div>
+</div>
+</div>
+<p class="note" style="margin-top:14px;">Transactions, Loans, Admin, and Auth follow the same top bar and content pattern — condensed tabs/forms, stacked loan cards, queue rows as cards, and the split panel dropping to a single centered card on Auth.</p>
+</section>
+
+<section id="dark">
+<h2>Dark mode — desktop</h2>
+<p class="note">Same final pages, dark tokens. Cards lift a shade above the page (#202024 on #121212), buttons use #4F46E5 for contrast, badges use their dark-stop pairs, closed cards stay flat/dim.</p>
+<div class="dark-frame row">
+<div style="background:#202024; border:1px solid #35353D; border-radius:10px; padding:14px; width:220px; box-sizing:border-box;">
+<div style="font-size:11px; color:#A1A1AA;">Total balance</div>
+<div style="font-size:20px; font-weight:600; color:#F4F4F5;">16.288,12&nbsp;&euro;</div>
+<button style="background:#4F46E5; color:#FFFFFF; border:none; border-radius:7px; padding:6px 12px; font-size:11px; font-family:inherit; margin-top:8px;">+ Deposit</button>
+</div>
+<div style="background:#4338CA; border-radius:18px; height:110px; width:200px; position:relative; overflow:hidden;"><div style="position:absolute; width:160px; height:160px; border-radius:50%; background:#3B31B5; top:-95px; right:-50px;"></div><div style="position:relative; padding:14px; height:100%; box-sizing:border-box; display:flex; flex-direction:column; justify-content:space-between;"><div style="color:#FFFFFF; font-size:12px; font-weight:600;">Everyday</div><div style="color:#FFFFFF; font-size:14px; font-weight:600;">4.238,12&nbsp;&euro;</div></div></div>
+<div style="background:#202024; border:1px solid #35353D; border-radius:10px; padding:14px; width:200px; box-sizing:border-box;">
+<div style="display:flex; gap:6px; margin-bottom:6px;"><span style="background:#064E3B; color:#6EE7B7; font-size:10px; padding:2px 8px; border-radius:999px;">Active</span><span style="background:#4C0519; color:#FDA4AF; font-size:10px; padding:2px 8px; border-radius:999px;">Rejected</span></div>
+<div style="color:#34D399; font-size:13px; font-weight:600;">+1.200,00&nbsp;&euro;</div>
+<div style="color:#FB7185; font-size:13px; font-weight:600;">&minus;45,00&nbsp;&euro;</div>
+</div>
+</div>
+</section>
+
+<section id="misc">
+<h2>States and brand</h2>
+<p class="note">Empty states (invitation + verb CTA, not gray text), the frost-effect exploration for frozen cards, first-run dashboard for a brand-new user with zero accounts.</p>
+<div class="row">
+<div style="border:1px solid #E4E4E7; border-radius:12px; padding:24px 18px; width:180px; text-align:center;">
+<i class="ti ti-wallet" style="color:#A1A1AA; font-size:22px;"></i>
+<div style="font-size:12px; font-weight:500; margin:8px 0 4px;">Open your first account</div>
+<div style="font-size:11px; color:#71717A; margin-bottom:8px;">Takes a few seconds.</div>
+<button style="background:#4338CA; color:#FFFFFF; border:none; border-radius:7px; padding:6px 12px; font-size:11px; font-family:inherit;">Open account</button>
+</div>
+<div style="border:1px solid #E4E4E7; border-radius:12px; padding:24px 18px; width:180px; text-align:center;">
+<i class="ti ti-receipt" style="color:#A1A1AA; font-size:22px;"></i>
+<div style="font-size:12px; font-weight:500; margin:8px 0 4px;">No transactions yet</div>
+<div style="font-size:11px; color:#71717A;">Deposits and transfers show up here.</div>
+</div>
+</div>
+</section>
+
+</div>
+</body>
+</html>
