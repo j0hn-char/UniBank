@@ -15,6 +15,9 @@ import {Button} from "@/components/ui/button.tsx";
 import {Label} from "@/components/ui/label.tsx";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select.tsx";
 import {Input} from "@/components/ui/input.tsx";
+import {Badge} from "@/components/ui/badge.tsx";
+import {statusVariant} from "@/lib/statusVariant.ts";
+import {formatCurrency} from "@/components/MoneyAmount.tsx";
 
 export default function LoansPage() {
     const [ loans, setLoans ] = useState<LoanResponse[]>([]);
@@ -130,7 +133,7 @@ export default function LoansPage() {
                                     <SelectContent>
                                         {activeAccounts.map((account) => (
                                             <SelectItem key={account.id} value={String(account.id)}>
-                                                {account.nickname} — {account.balance.toFixed(2)}€
+                                                {account.nickname} — {formatCurrency(account.balance)}
                                             </SelectItem>
                                         ))}
                                     </SelectContent>
@@ -170,7 +173,7 @@ export default function LoansPage() {
                             </div>
                         </div>
 
-                        {applyError && <p className="text-sm text-red-500">{applyError}</p>}
+                        {applyError && <p className="text-sm text-destructive">{applyError}</p>}
 
                         <DialogFooter>
                             <Button onClick={handleApply} disabled={submitting}>
@@ -190,12 +193,12 @@ export default function LoansPage() {
                         <Card key={loan.id} className="max-w-lg">
                             <CardHeader>
                                 <CardTitle>{loan.purpose}</CardTitle>
-                                <p className="text-sm text-muted-foreground">{loan.status}</p>
+                                <Badge variant={statusVariant(loan.status)}>{loan.status}</Badge>
                             </CardHeader>
                             <CardContent className="space-y-1 text-sm">
-                                <p>Principal: {loan.principalAmount.toFixed(2)}€</p>
-                                <p>Remaining: {loan.remainingBalance.toFixed(2)}€</p>
-                                <p>Monthly payment: {loan.monthlyPayment.toFixed(2)}€</p>
+                                <p>Principal: {formatCurrency(loan.principalAmount)}</p>
+                                <p>Remaining: {formatCurrency(loan.remainingBalance)}</p>
+                                <p>Monthly payment: {formatCurrency(loan.monthlyPayment)}</p>
                                 <p>Term: {loan.termMonths} months</p>
                                 <p>Interest rate: {loan.interestRate}%</p>
 
@@ -218,7 +221,7 @@ export default function LoansPage() {
                                                         value={repayAmount}
                                                         onChange={(e) => setRepayAmount(e.target.value)}
                                                     />
-                                                    {repayError && <p className="text-sm text-red-500">{repayError}</p> }
+                                                    {repayError && <p className="text-sm text-destructive">{repayError}</p> }
                                                 </div>
                                                 <DialogFooter>
                                                     <Button onClick={() => handleRepay(loan.id)} disabled={submitting}>

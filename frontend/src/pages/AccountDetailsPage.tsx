@@ -13,6 +13,9 @@ import {
 import {Button} from "@/components/ui/button.tsx";
 import PageContainer from "@/components/PageContainer.tsx";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table.tsx";
+import {Badge} from "@/components/ui/badge.tsx";
+import {statusVariant} from "@/lib/statusVariant.ts";
+import MoneyAmount, {formatCurrency, isInbound} from "@/components/MoneyAmount.tsx";
 
 export default function AccountDetailsPage() {
     const [ account, setAccount ] = useState<AccountResponse | null>(null)
@@ -70,18 +73,18 @@ export default function AccountDetailsPage() {
             {loading ? (
                 <p>Loading...</p>
             ) : !account ? (
-                <p className="text-gray-500">Account not found.</p>
+                <p className="text-muted-foreground">Account not found.</p>
             ) : (
                 <>
                     <Card className="max-w-lg">
                         <CardHeader>
                             <CardTitle className="text-2xl">{account.nickname}</CardTitle>
-                            <p className="text-sm text-gray-500">{account.type}</p>
+                            <p className="text-sm text-muted-foreground">{account.type}</p>
                         </CardHeader>
                         <CardContent>
-                            <p className="text-sm text-gray-500">{account.accountNumber}</p>
-                            <p className="text-3xl font-bold mt-2">{account.balance.toFixed(2)}€</p>
-                            <p className="text-sm mt-1">{account.status}</p>
+                            <p className="text-sm text-muted-foreground">{account.accountNumber}</p>
+                            <p className="text-3xl font-bold mt-2">{formatCurrency(account.balance)}</p>
+                            <Badge variant={statusVariant(account.status)}>{account.status}</Badge>
                             <div className="mt-4">
                                 <AlertDialog>
                                     <AlertDialogTrigger asChild>
@@ -126,8 +129,10 @@ export default function AccountDetailsPage() {
                                         <TableRow key={tx.id}>
                                             <TableCell className="font-medium">{tx.type}</TableCell>
                                             <TableCell>{tx.description || '—'}</TableCell>
-                                            <TableCell className="text-right">{tx.amount.toFixed(2)}€</TableCell>
-                                            <TableCell className="text-right">{tx.balanceAfter.toFixed(2)}€</TableCell>
+                                            <TableCell className="text-right">
+                                                <MoneyAmount amount={tx.amount} direction={isInbound(tx.type) ? 'in' : 'out'} />
+                                            </TableCell>
+                                            <TableCell className="text-right">{formatCurrency(tx.balanceAfter)}</TableCell>
                                             <TableCell>{new Date(tx.createdAt).toLocaleDateString()}</TableCell>
                                         </TableRow>
                                     ))}

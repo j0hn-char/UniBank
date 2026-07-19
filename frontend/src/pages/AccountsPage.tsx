@@ -16,6 +16,9 @@ import {
 import {Input} from "@/components/ui/input.tsx";
 import {useNavigate} from "react-router-dom";
 import PageContainer from "@/components/PageContainer.tsx";
+import {formatCurrency} from "@/components/MoneyAmount.tsx";
+import {statusVariant} from "@/lib/statusVariant.ts";
+import {Badge} from "@/components/ui/badge.tsx";
 
 export default function AccountsPage() {
     const [ accounts, setAccounts ] = useState<AccountResponse[]>([])
@@ -112,7 +115,7 @@ export default function AccountsPage() {
             {loading ? (
                 <p>Loading...</p>
             ) : accounts.length === 0 ? (
-                <p className="text-gray-500">You don't have any accounts yet.</p>
+                <p className="text-muted-foreground">You don't have any accounts yet.</p>
             ) : (
                 <div className="grid gap-4">
                     {sortedAccounts.map((account) => (
@@ -125,13 +128,11 @@ export default function AccountsPage() {
                         >
                             <CardHeader>
                                 <CardTitle>{account.nickname}</CardTitle>
-                                <p className={`text-sm ${account.status === 'CLOSED' ? 'text-red-500' : 'text-green-600'}`}>
-                                    {account.status}
-                                </p>
+                                <Badge variant={statusVariant(account.status)}>{account.status}</Badge>
                             </CardHeader>
                             <CardContent>
-                                <p className="text-sm text-gray-500">{account.accountNumber}</p>
-                                <p className="text-2xl font-bold">{account.balance.toFixed(2)}€</p>
+                                <p className="text-sm text-muted-foreground">{account.accountNumber}</p>
+                                <p className="text-2xl font-bold">{formatCurrency(account.balance)}</p>
                             </CardContent>
                         </Card>
                     ))}

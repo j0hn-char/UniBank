@@ -7,6 +7,7 @@ import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card.tsx
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {useNavigate} from "react-router-dom";
+import MoneyAmount, {formatCurrency, isInbound} from "@/components/MoneyAmount.tsx";
 
 export default function Dashboard() {
     const { user } = useAuth()
@@ -57,7 +58,7 @@ export default function Dashboard() {
                                 <CardTitle className="text-sm text-muted-foreground">Total balance</CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <p className="text-2xl font-bold">{totalBalance.toFixed(2)}€</p>
+                                <p className="text-2xl font-bold">{formatCurrency(totalBalance)}</p>
                             </CardContent>
                         </Card>
                         <Card>
@@ -73,7 +74,7 @@ export default function Dashboard() {
                                 <CardTitle className="text-sm text-muted-foreground">Total owed</CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <p className="text-2xl font-bold">{totalOwed.toFixed(2)}€</p>
+                                <p className="text-2xl font-bold">{formatCurrency(totalOwed)}</p>
                             </CardContent>
                         </Card>
                     </div>
@@ -96,7 +97,9 @@ export default function Dashboard() {
                                         <TableRow key={tx.id}>
                                             <TableCell className="font-medium">{tx.type}</TableCell>
                                             <TableCell>{tx.description || '—'}</TableCell>
-                                            <TableCell className="text-right">{tx.amount.toFixed(2)}€</TableCell>
+                                            <TableCell className="text-right">
+                                                <MoneyAmount amount={tx.amount} direction={isInbound(tx.type) ? 'in' : 'out'} />
+                                            </TableCell>
                                             <TableCell>{new Date(tx.createdAt).toLocaleDateString()}</TableCell>
                                         </TableRow>
                                     ))}
@@ -125,7 +128,7 @@ export default function Dashboard() {
                                                 <p className="font-medium">{account.nickname}</p>
                                                 <p className="text-sm text-muted-foreground">{account.type} · {account.status}</p>
                                             </div>
-                                            <p className="font-bold">{account.balance.toFixed(2)}€</p>
+                                            <p className="font-bold">{formatCurrency(account.balance)}</p>
                                         </CardContent>
                                     </Card>
                                 ))}

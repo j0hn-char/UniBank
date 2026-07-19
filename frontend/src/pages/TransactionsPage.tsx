@@ -170,7 +170,7 @@ export default function TransactionsPage() {
                             />
                         </div>
 
-                        {depositError && <p className="text-sm text-red-500">{depositError}</p>}
+                        {depositError && <p className="text-sm text-destructive">{depositError}</p>}
 
                         <Button onClick={handleDeposit} disabled={submitting}>
                             {submitting ? 'Depositing...' : 'Make deposit'}
@@ -215,7 +215,7 @@ export default function TransactionsPage() {
                             />
                         </div>
 
-                        {withdrawError && <p className="text-sm text-red-500">{withdrawError}</p>}
+                        {withdrawError && <p className="text-sm text-destructive">{withdrawError}</p>}
 
                         <Button onClick={handleWithdraw} disabled={submitting}>
                             {submitting ? 'Withdrawing...' : 'Make withdrawal'}
@@ -269,7 +269,7 @@ export default function TransactionsPage() {
                             />
                         </div>
 
-                        {transferError && <p className="text-sm text-red-500">{transferError}</p>}
+                        {transferError && <p className="text-sm text-destructive">{transferError}</p>}
 
                         <Button onClick={handleTransfer} disabled={submitting}>
                             {submitting ? 'Transferring...' : 'Make transfer'}

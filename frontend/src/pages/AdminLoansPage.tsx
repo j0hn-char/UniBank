@@ -11,6 +11,9 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger
 } from "@/components/ui/alert-dialog.tsx";
+import {Badge} from "@/components/ui/badge.tsx";
+import {statusVariant} from "@/lib/statusVariant.ts";
+import {formatCurrency} from "@/components/MoneyAmount.tsx";
 
 export default function AdminLoansPage() {
     const [ loans, setLoans ] = useState<LoanResponse[]>([])
@@ -69,12 +72,12 @@ export default function AdminLoansPage() {
                         <Card key={loan.id} className="max-w-lg">
                             <CardHeader>
                                 <CardTitle>{loan.purpose}</CardTitle>
-                                <p className="text-sm text-muted-foreground">{loan.status}</p>
+                                <Badge variant={statusVariant(loan.status)}>{loan.status}</Badge>
                             </CardHeader>
                             <CardContent className="space-y-1 text-sm">
-                                <p>Principal: {loan.principalAmount.toFixed(2)}€</p>
-                                <p>Remaining: {loan.remainingBalance.toFixed(2)}€</p>
-                                <p>Monthly payment: {loan.monthlyPayment.toFixed(2)}€</p>
+                                <p>Principal: {formatCurrency(loan.principalAmount)}</p>
+                                <p>Remaining: {formatCurrency(loan.remainingBalance)}</p>
+                                <p>Monthly payment: {formatCurrency(loan.monthlyPayment)}</p>
                                 <p>Term: {loan.termMonths} months</p>
                                 <p>Interest rate: {loan.interestRate}%</p>
                                 <div className="flex gap-2 mt-4">
@@ -86,7 +89,7 @@ export default function AdminLoansPage() {
                                             <AlertDialogHeader>
                                                 <AlertDialogTitle>Approve this loan?</AlertDialogTitle>
                                                 <AlertDialogDescription>
-                                                    This will disburse {loan.principalAmount.toFixed(2)} € to the borrower's account. This cannot be undone.
+                                                    This will disburse {formatCurrency(loan.principalAmount)} to the borrower's account. This cannot be undone.
                                                 </AlertDialogDescription>
                                             </AlertDialogHeader>
                                             <AlertDialogFooter>
