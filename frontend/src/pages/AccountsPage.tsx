@@ -1,7 +1,6 @@
 import {useEffect, useState} from "react";
 import api from "@/api/axios.ts";
 import type {AccountResponse, AccountType} from "@/types";
-import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card.tsx";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {Label} from "@/components/ui/label.tsx";
@@ -17,6 +16,9 @@ import {Input} from "@/components/ui/input.tsx";
 import {useNavigate} from "react-router-dom";
 import PageContainer from "@/components/PageContainer.tsx";
 import {formatCurrency} from "@/components/MoneyAmount.tsx";
+import ArcCard from "@/components/ArcCard.tsx";
+import {Copy, Landmark, Plus, Wallet} from "lucide-react";
+import {toast} from "sonner";
 import {statusVariant} from "@/lib/statusVariant.ts";
 import {Badge} from "@/components/ui/badge.tsx";
 
@@ -43,7 +45,7 @@ export default function AccountsPage() {
     async function handleOpenAccount() {
         setSubmitting(true)
         try {
-            await api.post<AccountResponse>('/accounts', { type, nickname })
+            await api.post<AccountResponse>('/accounts', { type, nickname: nickname.trim() || null })
             setDialogOpen(false)
             setNickname('')
             await fetchAccounts()
@@ -66,9 +68,9 @@ export default function AccountsPage() {
 
     return (
         <PageContainer>
-            <h1 className="text-2xl font-bold mb-6">My Accounts</h1>
+            <div className="flex items-center justify-between mb-6">
+                <h1 className="text-2xl font-bold">My Accounts</h1>
 
-            <div className="mb-6">
                 <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
                     <DialogTrigger asChild>
                         <Button>Open account</Button>
@@ -117,25 +119,89 @@ export default function AccountsPage() {
             ) : accounts.length === 0 ? (
                 <p className="text-muted-foreground">You don't have any accounts yet.</p>
             ) : (
-                <div className="grid gap-4">
-                    {sortedAccounts.map((account) => (
-                        <Card
-                            key={account.id}
-                            onClick={() => navigate(`/accounts/${account.id}`)}
-                            className={`cursor-pointer hover:shadow-md transition-shadow ${
-                                account.status === 'CLOSED' ? 'opacity-50' : ''
-                            }`}
-                        >
-                            <CardHeader>
-                                <CardTitle>{account.nickname}</CardTitle>
-                                <Badge variant={statusVariant(account.status)}>{account.status}</Badge>
-                            </CardHeader>
-                            <CardContent>
-                                <p className="text-sm text-muted-foreground">{account.accountNumber}</p>
-                                <p className="text-2xl font-bold">{formatCurrency(account.balance)}</p>
-                            </CardContent>
-                        </Card>
-                    ))}
+                <div className="grid gap-[14px] grid-cols-[repeat(auto-fill,minmax(260px,1fr))]">
+                    {sortedAccounts.map((account) => {
+                        if (account.status === "CLOSED") {
+                            const typeLabel = account.type === 'CHECKING' ? 'Checking' : 'Savings'
+
+                            return (
+                                <div
+                                    key={account.id}
+                                    onClick={() => navigate(`/accounts/${account.id}`)}
+                                    className="bg-muted rounded-[20px] h-[160px] p-4 flex flex-col justify-between cursor-pointer"
+                                >
+                                    <div className="flex justify-between items-start">
+                                        <div>
+                                            <div className="text-muted-foreground text-base font-semibold">
+                                                {account.nickname ?? typeLabel}
+                                            </div>
+                                            <div className="text-muted-foreground/70 text-sm mt-0.5">{typeLabel}</div>
+                                        </div>
+                                        <Badge variant={statusVariant(account.status)}>{account.status}</Badge>
+                                    </div>
+                                    <div className="flex justify-between items-end">
+                                        <div className="text-muted-foreground/70 text-sm">•••• {account.accountNumber.slice(-4)}</div>
+                                        <div className="text-muted-foreground/70 text-xl font-semibold tabular-nums">
+                                            {formatCurrency(account.balance)}
+                                        </div>
+                                    </div>
+                                </div>
+                            )
+                        }
+
+                        const isChecking = account.type === 'CHECKING'
+                        const typeLabel = isChecking ? 'Checking' : 'Savings'
+                        const secondary = isChecking ? 'text-[#C7D2FE]' : 'text-[#A1A1AA]'
+                        const Icon = isChecking ? Wallet : Landmark
+
+                        return (
+                            <ArcCard
+                                key={account.id}
+                                variant={isChecking ? 'indigo' : 'zinc'}
+                                arcs="md"
+                                className="h-[160px] cursor-pointer"
+                                onClick={() => navigate(`/accounts/${account.id}`)}
+                            >
+                                <div className="p-4 h-full flex flex-col justify-between">
+                                    <div className="flex justify-between items-start">
+                                        <div>
+                                            <div className="text-white text-base font-semibold">
+                                                {account.nickname ?? typeLabel}
+                                            </div>
+                                            <div className={`text-sm mt-0.5 ${secondary}`}>{typeLabel}</div>
+                                        </div>
+                                        <Icon size={17} className={secondary} />
+                                    </div>
+                                    <div className="flex justify-between items-end">
+                                        <div className={`flex items-center gap-1.5 ${secondary}`}>
+                                            <span className="text-sm">•••• {account.accountNumber.slice(-4)}</span>
+                                            <button
+                                                className="cursor-pointer transition hover:text-white active:scale-90"
+                                                aria-label="Copy account number"
+                                                onClick={(e) => {
+                                                    e.stopPropagation()
+                                                    navigator.clipboard.writeText(account.accountNumber)
+                                                    toast.success('Account number copied')
+                                                }}
+                                            >
+                                                <Copy size={14} />
+                                            </button>
+                                        </div>
+                                        <div className="text-white text-xl font-semibold tabular-nums">
+                                            {formatCurrency(account.balance)}
+                                        </div>
+                                    </div>
+                                </div>
+                            </ArcCard>
+                        )
+                    })}
+                    <button
+                        onClick={() => setDialogOpen(true)}
+                        className="h-[160px] rounded-[20px] border-2 border-dashed border-muted-foreground/30 flex flex-col items-center justify-center gap-1.5 text-muted-foreground hover:border-muted-foreground/60 hover:text-foreground transition cursor-pointer"
+                    >
+                        <Plus size={22} />
+                        <span className="text-sm font-medium">New account</span>
+                    </button>
                 </div>
             )}
         </PageContainer>
