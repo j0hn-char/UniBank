@@ -1,16 +1,14 @@
-import {useAuth} from "@/context/AuthContext.tsx";
 import PageContainer from "@/components/PageContainer.tsx";
 import {useEffect, useState} from "react";
 import type {AccountResponse, LoanResponse, TransactionResponse} from "@/types";
 import api from "@/api/axios.ts";
-import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card.tsx";
-import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table.tsx";
+import {Card, CardContent} from "@/components/ui/card.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {useNavigate} from "react-router-dom";
-import MoneyAmount, {formatCurrency, isInbound} from "@/components/MoneyAmount.tsx";
+import MoneyAmount, {formatCurrency, isInbound, transTypeLabels} from "@/components/MoneyAmount.tsx";
+import {ArrowDownLeft, ArrowLeftRight, ArrowUpRight, CreditCard, Plus} from "lucide-react";
 
 export default function Dashboard() {
-    const { user } = useAuth()
     const [ accounts, setAccounts ] = useState<AccountResponse[]>([])
     const [ loans, setLoans ] = useState<LoanResponse[]>([])
     const [ recentTransactions, setRecentTransactions ] = useState<TransactionResponse[]>([])
@@ -47,93 +45,91 @@ export default function Dashboard() {
     return (
         <PageContainer>
             <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
-            <p className="mb-4">Welcome, {user?.email}</p>
             {loading ? (
                 <p>Loading...</p>
             ) : (
-                <div className="space-y-8">
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        <Card>
-                            <CardHeader>
-                                <CardTitle className="text-sm text-muted-foreground">Total balance</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <p className="text-2xl font-bold">{formatCurrency(totalBalance)}</p>
-                            </CardContent>
-                        </Card>
-                        <Card>
-                            <CardHeader>
-                                <CardTitle className="text-sm text-muted-foreground">Active loans</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <p className="text-2xl font-bold">{activeLoans.length}</p>
-                            </CardContent>
-                        </Card>
-                        <Card>
-                            <CardHeader>
-                                <CardTitle className="text-sm text-muted-foreground">Total owed</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <p className="text-2xl font-bold">{formatCurrency(totalOwed)}</p>
-                            </CardContent>
-                        </Card>
-                    </div>
-                    <div>
-                        <h2 className="text-lg font-semibold mb-3">Recent activity</h2>
-                        {recentTransactions.length === 0 ? (
-                            <p className="text-sm text-muted-foreground">No recent activity.</p>
-                        ) : (
-                            <Table>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead>Type</TableHead>
-                                        <TableHead>Description</TableHead>
-                                        <TableHead className="text-right">Amount</TableHead>
-                                        <TableHead>Date</TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {recentTransactions.map((tx) => (
-                                        <TableRow key={tx.id}>
-                                            <TableCell className="font-medium">{tx.type}</TableCell>
-                                            <TableCell>{tx.description || '—'}</TableCell>
-                                            <TableCell className="text-right">
-                                                <MoneyAmount amount={tx.amount} direction={isInbound(tx.type) ? 'in' : 'out'} />
-                                            </TableCell>
-                                            <TableCell>{new Date(tx.createdAt).toLocaleDateString()}</TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        )}
-                    </div>
-                    <div>
-                        <h2 className="text-lg font-semibold mb-3">Quick actions</h2>
-                        <div className="flex gap-3">
-                            <Button onClick={() => navigate('/transactions')}>Make a transaction</Button>
-                            <Button variant="outline" onClick={() => navigate('/accounts')}>Accounts</Button>
-                            <Button variant="outline" onClick={() => navigate('/loans')}>Loans</Button>
+                <div className="space-y-4">
+                    <Card className="py-0">
+                        <CardContent className="p-5">
+                            <div className="flex justify-between items-start">
+                                <div>
+                                    <p className="text-xs text-muted-foreground mb-1">Total balance</p>
+                                    <p className="text-3xl font-semibold tabular-nums">{formatCurrency(totalBalance)}</p>
+                                </div>
+                                <div className="flex gap-2">
+                                    <Button onClick={() => navigate('/transactions')}>
+                                        <Plus size={16} /> Deposit
+                                    </Button>
+                                    <Button variant="outline" onClick={() => navigate('/transactions')}>
+                                        <ArrowLeftRight size={16} /> Transfer
+                                    </Button>
+                                </div>
+                            </div>
+
+                            <div className="h-[100px] rounded bg-muted/50 mt-3" />
+
+                            <div className="flex justify-between mt-1.5">
+                                <span className="text-[10px] text-muted-foreground">Jul 3</span>
+                                <span className="text-[10px] text-muted-foreground">Today</span>
+                            </div>
+                        </CardContent>
+                    </Card>
+                    <div className="grid grid-cols-2 gap-4">
+                        <div className="bg-muted rounded-[10px] px-4 py-3.5">
+                            <p className="text-xs text-muted-foreground">Active loans</p>
+                            <p className="text-xl font-semibold mt-0.5">{activeLoans.length}</p>
+                        </div>
+                        <div className="bg-muted rounded-[10px] px-4 py-3.5">
+                            <p className="text-xs text-muted-foreground">Total owed</p>
+                            <p className="text-xl font-semibold mt-0.5 tabular-nums">{formatCurrency(totalOwed)}</p>
                         </div>
                     </div>
-                    <div>
-                        <h2 className="text-lg font-semibold mb-3">Your accounts</h2>
-                        {accounts.length === 0 ? (
-                            <p className="text-sm text-muted-foreground">No accounts yet.</p>
-                        ) : (
-                            <div className="grid gap-2">
-                                {accounts.map((account) => (
-                                    <Card key={account.id}>
-                                        <CardContent className="flex justify-between items-center py-3">
-                                            <div>
-                                                <p className="font-medium">{account.nickname}</p>
-                                                <p className="text-sm text-muted-foreground">{account.type} · {account.status}</p>
+                    <div className="grid md:grid-cols-[1.7fr_1fr] gap-4 items-start">
+                        <Card className="py-0 gap-0">
+                            <p className="text-xs font-medium text-muted-foreground px-4 pt-3.5 pb-2">Recent activity</p>
+                            {recentTransactions.length === 0 ? (
+                                <p className="text-sm text-muted-foreground px-4 pb-4">No recent activity.</p>
+                            ) : (
+                                recentTransactions.map((tx) => {
+                                    const inbound = isInbound(tx.type)
+                                    const Icon = tx.type === 'LOAN_REPAYMENT' ? CreditCard : inbound ? ArrowDownLeft : ArrowUpRight
+
+                                    return (
+                                        <div key={tx.id} className="flex items-center gap-2.5 px-4 py-2.5 border-t">
+                                            <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${
+                                                inbound ? 'bg-success/10 text-success dark:bg-success/20' : 'bg-destructive/10 text-destructive dark:bg-destructive/20'
+                                            }`}>
+                                                <Icon size={14} />
                                             </div>
-                                            <p className="font-bold">{formatCurrency(account.balance)}</p>
-                                        </CardContent>
-                                    </Card>
-                                ))}
-                            </div>
-                        )}
+                                            <div className="flex-1">
+                                                <p className="text-[13px]">{tx.description || transTypeLabels[tx.type]}</p>
+                                                <p className="text-[11px] text-muted-foreground">
+                                                    {new Date(tx.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                                                </p>
+                                            </div>
+                                            <MoneyAmount amount={tx.amount} direction={inbound ? 'in' : 'out'} />
+                                        </div>
+                                    )
+                                })
+                            )}
+                        </Card>
+
+                        <Card className="py-0 gap-0">
+                            <p className="text-xs font-medium text-muted-foreground px-4 pt-3.5 pb-2">Accounts</p>
+                            {accounts.filter(a => a.status === 'ACTIVE').map((account) => (
+                                <div
+                                    key={account.id}
+                                    onClick={() => navigate(`/accounts/${account.id}`)}
+                                    className="flex items-center gap-2 px-4 py-2.5 border-t cursor-pointer hover:bg-muted/50"
+                                >
+                                    <div className={`w-2 h-2 rounded-full shrink-0 ${
+                                        account.type === 'CHECKING' ? 'bg-[#4338CA]' : 'bg-[#27272A] dark:bg-[#A1A1AA]'
+                                    }`} />
+                                    <p className="text-xs flex-1 truncate">{account.nickname ?? (account.type === 'CHECKING' ? 'Checking' : 'Savings')}</p>
+                                    <p className="text-xs font-semibold tabular-nums">{formatCurrency(account.balance, 0)}</p>
+                                </div>
+                            ))}
+                        </Card>
                     </div>
                 </div>
             )}

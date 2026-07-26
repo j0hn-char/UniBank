@@ -12,7 +12,7 @@ import {
 import {Button} from "@/components/ui/button.tsx";
 import PageContainer from "@/components/PageContainer.tsx";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table.tsx";
-import MoneyAmount, {formatCurrency, isInbound} from "@/components/MoneyAmount.tsx";
+import MoneyAmount, {formatCurrency, isInbound, transTypeLabels} from "@/components/MoneyAmount.tsx";
 import {toast} from "sonner";
 import {
     Dialog,
@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/dialog.tsx";
 import {Label} from "@/components/ui/label.tsx";
 import {Input} from "@/components/ui/input.tsx";
-import {Copy, Landmark, Wallet} from "lucide-react";
+import {Copy, Landmark, Plus, Wallet} from "lucide-react";
 import ArcCard from "@/components/ArcCard.tsx";
 
 export default function AccountDetailsPage() {
@@ -235,7 +235,9 @@ export default function AccountDetailsPage() {
                     <div className="flex gap-2 items-center mb-6">
                         <Dialog open={depositOpen} onOpenChange={setDepositOpen}>
                             <DialogTrigger asChild>
-                                <Button>+ Deposit</Button>
+                                <Button>
+                                    <Plus size={16} /> Deposit
+                                </Button>
                             </DialogTrigger>
                             <DialogContent>
                                 <DialogHeader>
@@ -421,7 +423,7 @@ export default function AccountDetailsPage() {
                                     {transactions.map((tx) => (
                                         <TableRow key={tx.id}>
                                             <TableCell className="font-medium">{tx.type}</TableCell>
-                                            <TableCell>{tx.description || '—'}</TableCell>
+                                            <TableCell>{tx.description || transTypeLabels[tx.type]}</TableCell>
                                             <TableCell className="text-right">
                                                 <MoneyAmount amount={tx.amount} direction={isInbound(tx.type) ? 'in' : 'out'} />
                                             </TableCell>
