@@ -120,7 +120,7 @@ export default function Dashboard() {
                                 <div
                                     key={account.id}
                                     onClick={() => navigate(`/accounts/${account.id}`)}
-                                    className="flex items-center gap-2 px-4 py-2.5 border-t cursor-pointer hover:bg-muted/50"
+                                    className="flex items-center gap-2 px-4 py-2.5 border-t cursor-pointer hover:bg-muted/50 transition-colors"
                                 >
                                     <div className={`w-2 h-2 rounded-full shrink-0 ${
                                         account.type === 'CHECKING' ? 'bg-[#4338CA]' : 'bg-[#27272A] dark:bg-[#A1A1AA]'

@@ -45,6 +45,9 @@ export default function AccountDetailsPage() {
     const [ transferToAccountNumber, setTransferToAccountNumber ] = useState('')
     const [ transferAmount, setTransferAmount ] = useState('')
     const [ transferDescription, setTransferDescription ] = useState('')
+    const [depositError, setDepositError] = useState('')
+    const [withdrawError, setWithdrawError] = useState('')
+    const [transferError, setTransferError] = useState('')
     const { id } = useParams()
     const navigate = useNavigate()
 
@@ -83,8 +86,8 @@ export default function AccountDetailsPage() {
         try {
             await api.delete(`/accounts/${id}`)
             navigate('/accounts')
-        } catch (err) {
-            console.error(err)
+        } catch (err: any) {
+            toast.error(err.response?.data?.message ?? 'Failed to close account')
         } finally {
             setSubmitting(false)
         }
@@ -92,10 +95,11 @@ export default function AccountDetailsPage() {
 
     async function handleDeposit() {
         if (Number(depositAmount) <= 0) {
-            toast.error('Amount must be greater than zero')
+            setDepositError('Amount must be greater than zero')
             return
         }
         setSubmitting(true)
+        setDepositError('')
         try {
             const body = {
                 accountId: Number(account?.id),
@@ -108,20 +112,21 @@ export default function AccountDetailsPage() {
             await fetchAccount()
             await fetchTransactions()
             toast.success('Deposit successful')
-        } catch (err) {
-            toast.error('Deposit failed')
+            setDepositOpen(false)
+        } catch (err: any) {
+            setDepositError(err.response?.data?.message ?? 'Deposit failed')
         } finally {
             setSubmitting(false)
-            setDepositOpen(false)
         }
     }
 
     async function handleWithdraw() {
         if (Number(withdrawAmount) <= 0) {
-            toast.error('Amount must be greater than zero')
+            setWithdrawError('Amount must be greater than zero')
             return
         }
         setSubmitting(true)
+        setWithdrawError('')
         try {
             const body = {
                 accountId: Number(account?.id),
@@ -134,20 +139,21 @@ export default function AccountDetailsPage() {
             await fetchAccount()
             await fetchTransactions()
             toast.success('Withdrawal successful')
+            setWithdrawOpen(false)
         } catch (err: any) {
-            toast.error(err.response?.data?.message ?? 'Withdrawal failed')
+            setWithdrawError(err.response?.data?.message ?? 'Withdrawal failed')
         } finally {
             setSubmitting(false)
-            setWithdrawOpen(false)
         }
     }
 
     async function handleTransfer() {
         if (Number(transferAmount) <= 0) {
-            toast.error('Amount must be greater than zero')
+            setTransferError('Amount must be greater than zero')
             return
         }
         setSubmitting(true)
+        setTransferError('')
         try {
             const body = {
                 fromAccountId: Number(account?.id),
@@ -163,11 +169,11 @@ export default function AccountDetailsPage() {
             await fetchAccount()
             await fetchTransactions()
             toast.success('Transfer successful')
+            setTransferOpen(false)
         } catch (err: any) {
-            toast.error(err.response?.data?.message ?? 'Transfer failed')
+            setTransferError(err.response?.data?.message ?? 'Transfer failed')
         } finally {
             setSubmitting(false)
-            setTransferOpen(false)
         }
     }
 
@@ -187,6 +193,7 @@ export default function AccountDetailsPage() {
     const statusLabel = account ? account.status.charAt(0) + account.status.slice(1).toLowerCase() : ''
     const secondary = account?.type === 'CHECKING' ? 'text-[#C7D2FE]' : 'text-[#A1A1AA]'
     const Icon = account?.type === 'CHECKING' ? Wallet : Landmark
+    const activeAccounts = myAccounts.filter((a) => a.status === 'ACTIVE')
 
     return (
         <PageContainer>
@@ -205,7 +212,7 @@ export default function AccountDetailsPage() {
                             <div className="flex justify-between items-start">
                                 <div>
                                     <div className="text-white text-xl font-semibold">
-                                        {account.nickname ?? typeLabel}
+                                        {account.nickname}
                                     </div>
                                     <div className={`text-base mt-0.5 ${secondary}`}>{typeLabel} · {statusLabel}</div>
                                 </div>
@@ -233,7 +240,7 @@ export default function AccountDetailsPage() {
                     </ArcCard>
 
                     <div className="flex gap-2 items-center mb-6">
-                        <Dialog open={depositOpen} onOpenChange={setDepositOpen}>
+                        <Dialog open={depositOpen} onOpenChange={(open) => { setDepositOpen(open); if (!open) setDepositError('') }}>
                             <DialogTrigger asChild>
                                 <Button>
                                     <Plus size={16} /> Deposit
@@ -250,7 +257,7 @@ export default function AccountDetailsPage() {
                                         <Input
                                             type="number"
                                             id="deposit-amount"
-                                            placeholder="0.0€"
+                                            placeholder="0,00"
                                             value={depositAmount}
                                             onChange={(e) => setDepositAmount(e.target.value)}
                                         />
@@ -267,6 +274,8 @@ export default function AccountDetailsPage() {
                                     </div>
                                 </div>
 
+                                {depositError && <p className="text-sm text-destructive">{depositError}</p>}
+
                                 <DialogFooter>
                                     <Button onClick={handleDeposit} disabled={submitting}>
                                         {submitting ? 'Loading...' : 'Make deposit'}
@@ -275,7 +284,7 @@ export default function AccountDetailsPage() {
                             </DialogContent>
                         </Dialog>
 
-                        <Dialog open={withdrawOpen} onOpenChange={setWithdrawOpen}>
+                        <Dialog open={withdrawOpen} onOpenChange={(open) => { setWithdrawOpen(open); if (!open) setWithdrawError('') }}>
                             <DialogTrigger asChild>
                                 <Button variant="outline">Withdraw</Button>
                             </DialogTrigger>
@@ -290,7 +299,7 @@ export default function AccountDetailsPage() {
                                         <Input
                                             type="number"
                                             id="withdraw-amount"
-                                            placeholder="0.0€"
+                                            placeholder="0,00"
                                             value={withdrawAmount}
                                             onChange={(e) => setWithdrawAmount(e.target.value)}
                                         />
@@ -307,6 +316,8 @@ export default function AccountDetailsPage() {
                                     </div>
                                 </div>
 
+                                {withdrawError && <p className="text-sm text-destructive">{withdrawError}</p>}
+
                                 <DialogFooter>
                                     <Button onClick={handleWithdraw} disabled={submitting}>
                                         {submitting ? 'Loading...' : 'Make withdrawal'}
@@ -315,7 +326,7 @@ export default function AccountDetailsPage() {
                             </DialogContent>
                         </Dialog>
 
-                        <Dialog open={transferOpen} onOpenChange={setTransferOpen}>
+                        <Dialog open={transferOpen} onOpenChange={(open) => { setTransferOpen(open); if (!open) setTransferError('') }}>
                             <DialogTrigger asChild>
                                 <Button variant="outline">Transfer</Button>
                             </DialogTrigger>
@@ -326,29 +337,33 @@ export default function AccountDetailsPage() {
 
                                 <div className="space-y-4 py-2">
                                     <div className="space-y-2">
-                                        <Label htmlFor="to-account">To-account number</Label>
+                                        <Label htmlFor="to-account">To account number</Label>
                                         <Input
                                             id="to-account"
                                             placeholder="UNI..."
                                             value={transferToAccountNumber}
                                             onChange={(e) => setTransferToAccountNumber(e.target.value)}
                                         />
-                                    </div>
-
-                                    <div className="flex items-center gap-2 flex-wrap">
-                                        <span className="text-xs text-muted-foreground">Yours:</span>
-                                        {myAccounts
-                                            .filter((a) => a.id !== account.id && a.status === 'ACTIVE')
-                                            .map((a) => (
-                                                <button
-                                                    key={a.id}
-                                                    type="button"
-                                                    onClick={() => setTransferToAccountNumber(a.accountNumber)}
-                                                    className="text-xs px-2 py-1 rounded-full border border-border hover:bg-accent transition"
-                                                >
-                                                    {a.nickname ?? a.type}
-                                                </button>
-                                            ))}
+                                        {activeAccounts.length > 1 && (
+                                            <div className="flex items-center gap-2 flex-wrap">
+                                                <span className="text-xs text-muted-foreground">Yours:</span>
+                                                {myAccounts
+                                                    .filter((a) => a.id !== account.id && a.status === 'ACTIVE')
+                                                    .map((a) => (
+                                                        <button
+                                                            key={a.id}
+                                                            type="button"
+                                                            onClick={() => setTransferToAccountNumber(a.accountNumber)}
+                                                            className="border border-[#C7D2FE] bg-[#EEF2FF] text-[#4338CA]
+                                                    dark:border-[#4338CA] dark:bg-[#1E1B4B] dark:text-[#A5B4FC]
+                                                    text-xs font-medium px-2.5 py-1 rounded-full
+                                                    hover:bg-[#E0E7FF] dark:hover:bg-[#312E81]"
+                                                        >
+                                                            {a.nickname}
+                                                        </button>
+                                                    ))}
+                                            </div>
+                                        )}
                                     </div>
 
                                     <div className="space-y-2">
@@ -356,7 +371,7 @@ export default function AccountDetailsPage() {
                                         <Input
                                             type="number"
                                             id="transfer-amount"
-                                            placeholder="0.0€"
+                                            placeholder="0,00"
                                             value={transferAmount}
                                             onChange={(e) => setTransferAmount(e.target.value)}
                                         />
@@ -372,6 +387,8 @@ export default function AccountDetailsPage() {
                                         />
                                     </div>
                                 </div>
+
+                                {transferError && <p className="text-sm text-destructive">{transferError}</p>}
 
                                 <DialogFooter>
                                     <Button onClick={handleTransfer} disabled={submitting}>
@@ -422,7 +439,7 @@ export default function AccountDetailsPage() {
                                 <TableBody>
                                     {transactions.map((tx) => (
                                         <TableRow key={tx.id}>
-                                            <TableCell className="font-medium">{tx.type}</TableCell>
+                                            <TableCell className="font-medium">{transTypeLabels[tx.type]}</TableCell>
                                             <TableCell>{tx.description || transTypeLabels[tx.type]}</TableCell>
                                             <TableCell className="text-right">
                                                 <MoneyAmount amount={tx.amount} direction={isInbound(tx.type) ? 'in' : 'out'} />
